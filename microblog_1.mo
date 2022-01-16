@@ -13,10 +13,10 @@ actor{
         follows : shared query() -> async[Principal];
         post : shared(Text) -> async();
         posts : shared query() -> async[Message];
-        timeline : shared () -> async[Message];
+        timeline : shared query() -> async[Message];
     };
 
-    var followed : List.List<Principal> = List.nil();
+    stable var followed : List.List<Principal> = List.nil();
 
     public shared func follow(id : Principal) : async(){
         followed := List.push(id,followed);
@@ -26,9 +26,10 @@ actor{
         List.toArray(followed)
     };
 
-    var messages : List.List<Message> = List.nil();
+    stable var messages : List.List<Message> = List.nil();
 
-    public shared func post(text : Text) : async(){
+    public shared(msg) func post(text : Text) : async(){
+        assert(Principal.toText(msg.caller) == "jnbyw-lw2cj-y2pgw-vtdr4-cenwj-zvfei-yo4ru-pbx3c-mkteo-phhzz-hqe");
         let message : Message = {
             msg = text;
             time = Time.now();
