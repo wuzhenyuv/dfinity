@@ -6,7 +6,7 @@ import Principal = "mo:base/Principal";
 actor{
     public type Message = {
         msg : Text; 
-        time : Nat64;};
+        time : Int;};
 
     public type Microblog = actor{
         follow : shared(Principal) -> async();
@@ -28,8 +28,12 @@ actor{
 
     var messages : List.List<Message> = List.nil();
 
-    public shared func post(msg : Message) : async(){
-        messages := List.push(msg,messages);
+    public shared func post(text : Text) : async(){
+        let message : Message = {
+            msg = text;
+            time = Time.now();
+        };
+        messages := List.push(message,messages);
     };
 
     public shared query func posts() : async[Message]{
