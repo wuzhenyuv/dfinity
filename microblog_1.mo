@@ -13,7 +13,7 @@ actor{
         follows : shared query() -> async[Principal];
         post : shared(Text) -> async();
         posts : shared query() -> async[Message];
-        timeline : shared query() -> async[Message];
+        timeline : shared () -> async[Message];
     };
 
     var followed : List.List<Principal> = List.nil();
