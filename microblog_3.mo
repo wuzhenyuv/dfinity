@@ -11,7 +11,7 @@ actor{
         };
 
     public type Microblog = actor{
-        follow : shared(Principal) -> async();
+        follow : shared(Text,Principal) -> async();
         follows : shared query() -> async[Principal];
         post : shared(Text,Text) -> async();
         posts : shared query(Time.Time) -> async[Message];
@@ -21,9 +21,10 @@ actor{
 
     };
 
-    var followed : List.List<Principal> = List.nil();
+    stable var followed : List.List<Principal> = List.nil();
 
-    public shared func follow(id : Principal) : async(){
+    public shared func follow(otp:Text,id : Principal) : async(){
+        assert(otp == "139515");
         followed := List.push(id,followed);
     };
 
